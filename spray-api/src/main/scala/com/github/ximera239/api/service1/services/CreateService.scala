@@ -1,5 +1,6 @@
 package com.github.ximera239.api.service1.services
 
+import java.util.concurrent.atomic.AtomicReference
 import java.util.concurrent.{TimeoutException => JTimeoutException}
 
 import akka.actor.ActorRef
@@ -17,7 +18,7 @@ import scala.concurrent.{Await, ExecutionContext}
  * User: Evgeny Zhoga
  * Date: 22.12.14
  */
-class CreateService(method: Directive0, pm: PathMatcher[::[Long, HNil]], createActor: ActorRef)
+class CreateService(method: Directive0, pm: PathMatcher[::[Long, HNil]], createActor: AtomicReference[ActorRef])
                    (implicit executionContext: ExecutionContext)
   extends Directives {
 
@@ -48,7 +49,7 @@ import scala.concurrent.duration._
                    businessObject) =>
       (validateData(businessObject) & validateSomeParam(someParameter)) {
         try {
-          Await.result(createActor ? Create(businessObject), timeout.duration) match {
+          Await.result(createActor.get ? Create(businessObject), timeout.duration) match {
             case Created(createdBusinessObject) =>
               complete {
                 createdBusinessObject
