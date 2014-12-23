@@ -1,0 +1,22 @@
+<configuration>
+    <property name="component.name" value="spray-ugc"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date{ISO8601} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="akka" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <logger name="LocalActorRefProvider(akka://spray-ugc)" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <!--<appender-ref ref="ASYNC_LOG_FILE"/>-->
+    </root>
+</configuration>
