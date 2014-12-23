@@ -46,7 +46,7 @@ trait ActorsCore {
         context.actorSelection(pathToCheck) ! Identify(messageId)
       case ActorIdentity(correlationId, refOpt) if correlationId == messageId && refOpt.isDefined  =>
         val ref = refOpt.get
-        context.unwatch(ref)
+        context.watch(ref)
         objectReference.set(ref)
     }
   }
